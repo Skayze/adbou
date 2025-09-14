@@ -1,0 +1,3 @@
+- In RadiAnt, set a PACS destination: AET = ORTHANC, Host = your FQDN/IP, Port = 4242.
+- For query/retrieve, enable C-FIND/C-MOVE by adding RadiAnt as remote modality in Orthanc if needed.
+- Optionally add IP/AE-based AccessRules in Orthanc to restrict C-STORE.
