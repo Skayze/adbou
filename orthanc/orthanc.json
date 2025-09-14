@@ -1,27 +1,24 @@
+# Notes:
+#  - StorageDirectory is a bind mount to OneDrive; IndexDirectory is a local volume.
+#  - PostgreSQL: index in DB (EnableIndex=true), storage on filesystem (EnableStorage=false).
+#  - For DB‑only backup strategy, set EnableStorage=true and do WAL/PITR with pgBackRest.
+# ─────────────────────────────────────────────────────────────────────────────
 {
   "Name": "${ORTHANC__NAME}",
-  "StorageDirectory": "/var/lib/orthanc/storage",  
-  "IndexDirectory": "/var/lib/orthanc/index",     
+  "StorageDirectory": "/var/lib/orthanc/storage",
+  "IndexDirectory": "/var/lib/orthanc/index",
   "DicomAet": "${ORTHANC__DICOM_AET}",
   "DicomPort": 4242,
   "HttpPort": 8042,
-  "HttpDescribeErrors": false,
   "RemoteAccessAllowed": false,
   "AuthenticationEnabled": true,
-  "RegisteredUsers": {
-    "admin": "${ORTHANC_ADMIN_PASSWORD}"
-  },
+  "RegisteredUsers": { "admin": "${ORTHANC_ADMIN_PASSWORD}" },
   "SslEnabled": false,
-  "OrthancPeers": {},
   "CompressionEnabled": true,
-  "StoreDicom": true,
-  "MaximumStorageSize": 0,
-  "MaximumPatientCount": 0,
-  "LuaScripts": [],
   "Plugins": ["orthanc-postgresql"],
   "PostgreSQL": {
     "EnableIndex": true,
-    "EnableStorage": false, 
+    "EnableStorage": false,
     "Host": "postgres",
     "Port": 5432,
     "Database": "${POSTGRES_DB}",
@@ -30,17 +27,14 @@
     "IndexConnectionsCount": 10,
     "Lock": true
   },
-  "HttpServerThreadsCount": 8,
-  "HttpVerbose": false,
-  "JobsEngineThreadsCount": 4,
   "RestApiWritePermissions": true,
-  "DicomAssociationCloseDelay": 2,
-  "UnknownSopClassAccepted": false,
+  "HttpDescribeErrors": false,
+  "HttpServerThreadsCount": 8,
+  "JobsEngineThreadsCount": 4,
   "StrictAetComparison": true,
+  "DicomAssociationCloseDelay": 2,
   "OverwriteInstances": false,
-  "OverwriteSameUids": false,
-  "LimitFindResults": 0,
-  "LimitFindInstances": 0,
+  "UnknownSopClassAccepted": false,
   "LimitJobs": 20,
   "DicomScpTimeout": 30,
   "CaseSensitivePN": false
