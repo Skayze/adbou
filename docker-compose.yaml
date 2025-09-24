@@ -18,13 +18,14 @@ services:
     restart: unless-stopped
 
   orthanc:
-    image: orthancteam/orthanc-plugins:24.10
+    image: orthancteam/orthanc:25.9.0-full
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       ORTHANC__NAME: ${ORTHANC_NAME}
       ORTHANC__DICOM_AET: ${ORTHANC_AET}
+      ORTHANC__REGISTERED_USERS__admin: ${ORTHANC_ADMIN_PASSWORD}
       ORTHANC__DICOM_PORT: "4242"
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
@@ -40,8 +41,9 @@ services:
       - orthanc_index:/var/lib/orthanc/index
       - ./orthanc/orthanc.json:/etc/orthanc/orthanc.json:ro
     ports:
-      - "8042:8042"   # Orthanc UI/REST (http)
+      - "18042:8042"   # Orthanc UI/REST (http)
       - "4242:4242"   # DICOM C-STORE SCP
+      - "11112:11112"   # Radiant DICOM listener
     restart: unless-stopped
 
   # Nightly logical backups of Postgres into OneDrive folder

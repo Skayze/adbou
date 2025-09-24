@@ -1,8 +1,3 @@
-# Notes:
-#  - StorageDirectory is a bind mount to OneDrive; IndexDirectory is a local volume.
-#  - PostgreSQL: index in DB (EnableIndex=true), storage on filesystem (EnableStorage=false).
-#  - For DB‑only backup strategy, set EnableStorage=true and do WAL/PITR with pgBackRest.
-# ─────────────────────────────────────────────────────────────────────────────
 {
   "Name": "${ORTHANC__NAME}",
   "StorageDirectory": "/var/lib/orthanc/storage",
@@ -10,12 +5,17 @@
   "DicomAet": "${ORTHANC__DICOM_AET}",
   "DicomPort": 4242,
   "HttpPort": 8042,
-  "RemoteAccessAllowed": false,
+	"DicomModalities": {
+		"adbouRadiant": [ "ADBOU-RADIANT", "host.docker.internal", 11112 ]
+	},
+  "RemoteAccessAllowed": true,
   "AuthenticationEnabled": true,
-  "RegisteredUsers": { "admin": "${ORTHANC_ADMIN_PASSWORD}" },
   "SslEnabled": false,
   "CompressionEnabled": true,
-  "Plugins": ["orthanc-postgresql"],
+	"OrthancExplorer2" : {
+		"Enabled": true,
+		"IsDefaultOrthancUI" : true
+	},
   "PostgreSQL": {
     "EnableIndex": true,
     "EnableStorage": false,
@@ -30,7 +30,9 @@
   "RestApiWritePermissions": true,
   "HttpDescribeErrors": false,
   "HttpServerThreadsCount": 8,
-  "JobsEngineThreadsCount": 4,
+  "JobsEngineThreadsCount" : {
+    "ResourceModification": 4   
+		},
   "StrictAetComparison": true,
   "DicomAssociationCloseDelay": 2,
   "OverwriteInstances": false,
